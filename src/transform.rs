@@ -1,7 +1,7 @@
 use crate::point::Point;
 
 #[derive(Debug, Clone, Copy, PartialEq)]
-#[cfg_attr(feature = "serde", serde::Serialize, serde::Deserialize)]
+#[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub struct Transform {
     pub vx: f64,
     pub vy: f64,
@@ -13,6 +13,7 @@ pub struct Transform {
     pub mw: f64,
 }
 impl Transform {
+    pub const IDENTITY: Self = Self::new(0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0);
     pub const fn new(
         vx: f64,
         vy: f64,

@@ -40,4 +40,15 @@ mod test {
 
         assert_eq!(p1, p2);
     }
+    
+    #[cfg(feature = "serde")]
+    #[test]
+    fn json_serde() {
+        let val = Transform::IDENTITY;
+
+        let json_str = serde_json::to_string_pretty(&val).unwrap();
+        let val2: Transform = serde_json::from_str(&json_str).unwrap();
+
+        assert_eq!(val, val2);
+    }
 }

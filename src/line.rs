@@ -1,7 +1,7 @@
 use crate::{plane::Plane, point::Point};
 
 #[derive(Debug, Clone, Copy)]
-#[cfg_attr(feature = "serde", serde::Serialize, serde::Deserialize)]
+#[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 #[repr(C)]
 pub struct Line {
     pub vx: f64,

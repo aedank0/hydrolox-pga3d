@@ -3,7 +3,7 @@ use std::ops::{Add, Sub};
 use crate::{line::Line, plane::Plane};
 
 #[derive(Debug, Clone, Copy, PartialEq)]
-#[cfg_attr(feature = "serde", serde::Serialize, serde::Deserialize)]
+#[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 #[repr(C)]
 pub struct Point {
     pub x: f64,
