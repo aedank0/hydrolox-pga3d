@@ -1,4 +1,5 @@
 #[derive(Debug, Clone, Copy)]
+#[cfg_attr(feature = "serde", serde::Serialize, serde::Deserialize)]
 pub struct Plane {
     pub x: f64,
     pub y: f64,

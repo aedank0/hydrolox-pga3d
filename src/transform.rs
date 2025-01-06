@@ -1,6 +1,7 @@
 use crate::point::Point;
 
 #[derive(Debug, Clone, Copy, PartialEq)]
+#[cfg_attr(feature = "serde", serde::Serialize, serde::Deserialize)]
 pub struct Transform {
     pub vx: f64,
     pub vy: f64,

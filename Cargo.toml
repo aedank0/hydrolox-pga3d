@@ -6,6 +6,12 @@ edition = "2021"
 [dev-dependencies]
 criterion = { version = "0.5", features = [] }
 
+[features]
+serde = ["dep:serde"]
+
 [[bench]]
 name = "ben"
 harness = false
+
+[dependencies]
+serde = { version = "1.0.217", features = ["derive"], optional = true}
