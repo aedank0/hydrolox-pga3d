@@ -2,6 +2,8 @@ use crate::{point::Point, Float};
 
 #[derive(Debug, Clone, Copy, PartialEq)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+#[cfg_attr(feature = "bytemuck", derive(bytemuck::Pod, bytemuck::Zeroable))]
+#[repr(C)]
 pub struct Motor {
     pub vx: Float,
     pub vy: Float,

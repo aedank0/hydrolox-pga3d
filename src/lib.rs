@@ -56,4 +56,13 @@ mod test {
 
         assert_eq!(val, val2);
     }
+
+    #[cfg(feature = "bytemuck")]
+    #[test]
+    fn bytemuck() {
+        let val = Motor::IDENTITY;
+        let bytes = bytemuck::bytes_of(&val);
+
+        assert_eq!(val, *bytemuck::from_bytes::<Motor>(bytes));
+    }
 }
