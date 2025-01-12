@@ -1,28 +1,28 @@
-use crate::point::Point;
+use crate::{point::Point, Float};
 
 #[derive(Debug, Clone, Copy, PartialEq)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
-pub struct Transform {
-    pub vx: f64,
-    pub vy: f64,
-    pub vz: f64,
-    pub vw: f64,
-    pub mx: f64,
-    pub my: f64,
-    pub mz: f64,
-    pub mw: f64,
+pub struct Motor {
+    pub vx: Float,
+    pub vy: Float,
+    pub vz: Float,
+    pub vw: Float,
+    pub mx: Float,
+    pub my: Float,
+    pub mz: Float,
+    pub mw: Float,
 }
-impl Transform {
+impl Motor {
     pub const IDENTITY: Self = Self::new(0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0);
     pub const fn new(
-        vx: f64,
-        vy: f64,
-        vz: f64,
-        vw: f64,
-        mx: f64,
-        my: f64,
-        mz: f64,
-        mw: f64,
+        vx: Float,
+        vy: Float,
+        vz: Float,
+        vw: Float,
+        mx: Float,
+        my: Float,
+        mz: Float,
+        mw: Float,
     ) -> Self {
         Self {
             vx,
@@ -35,7 +35,7 @@ impl Transform {
             mw,
         }
     }
-    pub fn combine(self, other: Transform) -> Self {
+    pub fn combine(self, other: Motor) -> Self {
         Self::new(
             self.vx * other.vw + self.vw * other.vx + (self.vy * other.vz - self.vz * other.vy),
             self.vy * other.vw + self.vw * other.vy + (self.vz * other.vx - self.vx * other.vz),

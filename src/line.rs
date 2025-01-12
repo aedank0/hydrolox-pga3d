@@ -1,18 +1,18 @@
-use crate::{plane::Plane, point::Point};
+use crate::{plane::Plane, point::Point, Float};
 
 #[derive(Debug, Clone, Copy)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 #[repr(C)]
 pub struct Line {
-    pub vx: f64,
-    pub vy: f64,
-    pub vz: f64,
-    pub mx: f64,
-    pub my: f64,
-    pub mz: f64,
+    pub vx: Float,
+    pub vy: Float,
+    pub vz: Float,
+    pub mx: Float,
+    pub my: Float,
+    pub mz: Float,
 }
 impl Line {
-    pub const fn new(vx: f64, vy: f64, vz: f64, mx: f64, my: f64, mz: f64) -> Self {
+    pub const fn new(vx: Float, vy: Float, vz: Float, mx: Float, my: Float, mz: Float) -> Self {
         Self {
             vx,
             vy,

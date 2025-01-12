@@ -1,13 +1,15 @@
+use crate::Float;
+
 #[derive(Debug, Clone, Copy)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub struct Plane {
-    pub x: f64,
-    pub y: f64,
-    pub z: f64,
-    pub w: f64,
+    pub x: Float,
+    pub y: Float,
+    pub z: Float,
+    pub w: Float,
 }
 impl Plane {
-    pub const fn new(x: f64, y: f64, z: f64, w: f64) -> Self {
+    pub const fn new(x: Float, y: Float, z: Float, w: Float) -> Self {
         Self { x, y, z, w }
     }
 }
