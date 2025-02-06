@@ -80,12 +80,21 @@ mod test {
     #[test]
     fn motor_inverse() {
         //Camera is right, up, and back, and is angled 45 degrees to the left
-        let camera = Motor::rotation_around_axis(0.0, 1.0, 0.0, float_consts::PI * 0.25).combine(Motor::translation(1.0, 1.0, 1.0));
-        assert!(camera.transform(Point::ZERO).is_close(Point::new_position(1.0, 1.0, 1.0)), "Sanity check");
+        let camera = Motor::rotation_around_axis(0.0, 1.0, 0.0, float_consts::PI * 0.25)
+            .combine(Motor::translation(1.0, 1.0, 1.0));
+        assert!(
+            camera
+                .transform(Point::ZERO)
+                .is_close(Point::new_position(1.0, 1.0, 1.0)),
+            "Sanity check"
+        );
 
         let point = Point::new_position(0.0, 1.0, 0.0);
 
-        assert!(camera.inverse().transform(point).is_close(Point::new_position(0.0, 0.0, -(2.0 as Float).sqrt())));
+        assert!(camera
+            .inverse()
+            .transform(point)
+            .is_close(Point::new_position(0.0, 0.0, -(2.0 as Float).sqrt())));
     }
 
     #[cfg(feature = "serde")]

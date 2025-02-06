@@ -40,10 +40,10 @@ impl Motor {
     pub fn translation(x: Float, y: Float, z: Float) -> Self {
         Self::new(0.0, 0.0, 0.0, 1.0, x * 0.5, y * 0.5, z * 0.5, 0.0)
     }
+    #[inline]
     pub fn rotation_around_axis(axis_x: Float, axis_y: Float, axis_z: Float, angle: Float) -> Self {
-        assert_eq!(
-            axis_x * axis_x + axis_y * axis_y + axis_z * axis_z,
-            1.0,
+        debug_assert!(
+            (axis_x * axis_x + axis_y * axis_y + axis_z * axis_z - 1.0).abs() < 0.01,
             "Axis not normalized"
         );
         let angle = angle * 0.5;

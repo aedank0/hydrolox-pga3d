@@ -1,5 +1,6 @@
 use criterion::{criterion_group, criterion_main, Criterion};
-use hydrolox_pga3d::point::Point;
+use hydrolox_pga3d::{motor::Motor, point::Point};
+use rand::Rng;
 use std::hint::black_box;
 
 fn criterion_benchmark(c: &mut Criterion) {
@@ -12,6 +13,27 @@ fn criterion_benchmark(c: &mut Criterion) {
 
     c.bench_function("dot points", |b| {
         b.iter(|| black_box(p1).dot(black_box(p2)))
+    });
+
+    let mut rng = rand::rng();
+
+    c.bench_function("random combine and transform", |b| {
+        b.iter(|| {
+            let axis: (f32, f32, f32) = rng.random();
+            let magnitude = (axis.0 * axis.0 + axis.1 * axis.1 + axis.2 * axis.2).sqrt();
+            Motor::translation(rng.random(), rng.random(), rng.random())
+                .combine(Motor::rotation_around_axis(
+                    axis.0 / magnitude,
+                    axis.1 / magnitude,
+                    axis.2 / magnitude,
+                    rng.random(),
+                ))
+                .transform(Point::new_position(
+                    rng.random(),
+                    rng.random(),
+                    rng.random(),
+                ));
+        });
     });
 }
 
