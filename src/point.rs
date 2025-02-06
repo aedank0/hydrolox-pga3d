@@ -138,6 +138,13 @@ impl Point {
         Self::new(self.x.round(), self.y.round(), self.z.round(), self.w)
     }
 
+    pub fn is_close(self, other: Point) -> bool {
+        ((self.x - other.x).abs() < 0.01)
+            && ((self.y - other.y).abs() < 0.01)
+            && ((self.z - other.z).abs() < 0.01)
+            && ((self.w - other.w).abs() < 0.01)
+    }
+
     pub fn dot(self, rhs: Point) -> Float {
         self.x * rhs.x + self.y * rhs.y + self.z * rhs.z + self.w * rhs.w
     }
@@ -146,7 +153,8 @@ impl Point {
     }
 
     pub fn magnitude_squared(self) -> Float {
-        self.dot(self) / self.antidot(self)
+        let scaled = self.scaled();
+        scaled.x * scaled.x + scaled.y * scaled.y + scaled.z * scaled.z
     }
     pub fn magnitude(self) -> Float {
         self.magnitude_squared().sqrt()
