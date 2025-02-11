@@ -21,14 +21,14 @@ fn criterion_benchmark(c: &mut Criterion) {
         b.iter(|| {
             let axis: (f32, f32, f32) = rng.random();
             let magnitude = (axis.0 * axis.0 + axis.1 * axis.1 + axis.2 * axis.2).sqrt();
-            Motor::translation(rng.random(), rng.random(), rng.random())
-                .combine(Motor::rotation_around_axis(
+            Motor::from_translation(rng.random(), rng.random(), rng.random())
+                .combine(Motor::from_rotation_around_axis(
                     axis.0 / magnitude,
                     axis.1 / magnitude,
                     axis.2 / magnitude,
                     rng.random(),
                 ))
-                .transform(Point::new_position(
+                .transform(Point::from_position(
                     rng.random(),
                     rng.random(),
                     rng.random(),

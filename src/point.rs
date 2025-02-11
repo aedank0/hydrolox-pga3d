@@ -64,10 +64,10 @@ impl Point {
     pub const fn new(x: Float, y: Float, z: Float, w: Float) -> Self {
         Self { x, y, z, w }
     }
-    pub const fn new_position(x: Float, y: Float, z: Float) -> Self {
+    pub const fn from_position(x: Float, y: Float, z: Float) -> Self {
         Self { x, y, z, w: 1.0 }
     }
-    pub const fn new_direction(x: Float, y: Float, z: Float) -> Self {
+    pub const fn from_direction(x: Float, y: Float, z: Float) -> Self {
         Self { x, y, z, w: 0.0 }
     }
     pub const fn from_val(v: Float, w: Float) -> Self {
@@ -123,7 +123,7 @@ impl Point {
     }
     */
 
-    pub fn join(self, rhs: Point) -> Line {
+    pub fn join(&self, rhs: Point) -> Line {
         Line::new(
             self.w * rhs.x - self.x * rhs.w,
             self.w * rhs.y - self.y * rhs.w,
@@ -134,33 +134,37 @@ impl Point {
         )
     }
 
-    pub fn round(self) -> Self {
+    pub fn round(&self) -> Self {
         Self::new(self.x.round(), self.y.round(), self.z.round(), self.w)
     }
 
-    pub fn is_close(self, other: Point) -> bool {
+    pub fn is_close(&self, other: Point) -> bool {
         ((self.x - other.x).abs() < 0.01)
             && ((self.y - other.y).abs() < 0.01)
             && ((self.z - other.z).abs() < 0.01)
             && ((self.w - other.w).abs() < 0.01)
     }
 
-    pub fn dot(self, rhs: Point) -> Float {
+    pub fn dot(&self, rhs: Point) -> Float {
         self.x * rhs.x + self.y * rhs.y + self.z * rhs.z + self.w * rhs.w
     }
-    pub fn antidot(self, rhs: Point) -> Float {
+    pub fn antidot(&self, rhs: Point) -> Float {
         self.w * rhs.w
     }
 
-    pub fn magnitude_squared(self) -> Float {
-        let scaled = self.scaled();
+    pub fn magnitude_squared(&self) -> Float {
+        let mut scaled = *self;
+        if self.w != 0.0 && self.w != 1.0 {
+            scaled = scaled.scaled();
+        }
         scaled.x * scaled.x + scaled.y * scaled.y + scaled.z * scaled.z
     }
-    pub fn magnitude(self) -> Float {
+    pub fn magnitude(&self) -> Float {
         self.magnitude_squared().sqrt()
     }
 
     pub fn scaled(&self) -> Self {
+        debug_assert_ne!(self.w, 0.0);
         Self {
             x: self.x / self.w,
             y: self.y / self.w,
@@ -168,12 +172,23 @@ impl Point {
             w: self.w / self.w,
         }
     }
-
-    pub fn dist(self, other: Point) -> Float {
-        (other - self).magnitude()
+    pub fn normalized(&self) -> Self {
+        let mut scaled = *self;
+        if self.w != 0.0 && self.w != 1.0 {
+            scaled = scaled.scaled();
+        }
+        let inv_mag = 1.0 / scaled.magnitude();
+        scaled.x *= inv_mag;
+        scaled.y *= inv_mag;
+        scaled.z *= inv_mag;
+        scaled
     }
 
-    pub fn expand_plane(self, rhs: Plane) -> Line {
+    pub fn dist(&self, other: Point) -> Float {
+        (other - *self).magnitude()
+    }
+
+    pub fn expand_plane(&self, rhs: Plane) -> Line {
         Line::new(
             -self.w * rhs.x,
             -self.w * rhs.y,
@@ -183,7 +198,7 @@ impl Point {
             self.y * rhs.x - self.x * rhs.y,
         )
     }
-    pub fn expand_line(self, rhs: Line) -> Plane {
+    pub fn expand_line(&self, rhs: Line) -> Plane {
         Plane::new(
             -self.w * rhs.vx,
             -self.w * rhs.vy,

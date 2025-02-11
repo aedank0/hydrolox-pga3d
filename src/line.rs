@@ -24,7 +24,7 @@ impl Line {
         }
     }
 
-    pub fn join(self, rhs: Point) -> Plane {
+    pub fn join(&self, rhs: Point) -> Plane {
         Plane::new(
             self.vy * rhs.z - self.vz * rhs.y + self.mx * rhs.w,
             self.vz * rhs.x - self.vx * rhs.z + self.my * rhs.w,
@@ -33,7 +33,7 @@ impl Line {
         )
     }
 
-    pub fn expand(self, rhs: Plane) -> Plane {
+    pub fn expand(&self, rhs: Plane) -> Plane {
         Plane::new(
             self.vy * rhs.z - self.vz * rhs.y,
             self.vz * rhs.x - self.vx * rhs.z,
