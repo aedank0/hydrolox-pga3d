@@ -150,6 +150,14 @@ mod test {
 
         let point = Point::from_position(0.5, 0.3, 0.7);
 
+        //println!("{:#?}", translation.translation_euler());
+
+        assert!(translation
+            .transform(point)
+            .is_close(Point::from_position(3.5, 2.3, 1.7)));
+        assert!(rotation
+            .transform(point)
+            .is_close(Motor::from_euler_angles(2.5, 3.0, 4.0).transform(point)));
         assert!(motor
             .transform(point)
             .is_close(rotation.combine(translation).transform(point)));

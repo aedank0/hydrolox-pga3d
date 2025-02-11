@@ -69,16 +69,7 @@ impl Motor {
         let vz3 = cos_y * vz2 - sin_y * vx2;
         let vw3 = cos_y * vw2 - sin_y * vy2;
 
-        Self {
-            vx: vx3,
-            vy: vy3,
-            vz: vz3,
-            vw: vw3,
-            mx: 0.0,
-            my: 0.0,
-            mz: 0.0,
-            mw: 0.0,
-        }
+        Self::new(vx3, vy3, vz3, vw3, 0.0, 0.0, 0.0, 0.0)
     }
     #[inline]
     pub fn from_euler_pos_and_rot(
@@ -118,16 +109,16 @@ impl Motor {
         let my = pos_y * 0.5;
         let mz = pos_z * 0.5;
 
-        Self {
-            vx: vx3,
-            vy: vy3,
-            vz: vz3,
-            vw: vw3,
-            mx: mx * vw3 - mz * vy3 + my * vz3,
-            my: my * vw3 - mx * vz3 + mz * vx3,
-            mz: mz * vw3 - my * vx3 + mx * vy3,
-            mw: -(mx * vx3 + my * vy3 + mz * vz3),
-        }
+        Self::new(
+            vx3,
+            vy3,
+            vz3,
+            vw3,
+            mx * vw3 - mz * vy3 + my * vz3,
+            my * vw3 - mx * vz3 + mz * vx3,
+            mz * vw3 - my * vx3 + mx * vy3,
+            -(mx * vx3 + my * vy3 + mz * vz3),
+        )
     }
     #[inline]
     pub fn from_rotation_around_axis(
@@ -220,10 +211,15 @@ impl Motor {
     }
     #[inline]
     pub fn factor_translation(&self) -> Motor {
-        Motor::from_translation(
+        Motor::new(
+            0.0,
+            0.0,
+            0.0,
+            1.0,
             self.vw * self.mx + self.vy * self.mz - self.vz * self.my - self.mw * self.vx,
             self.vw * self.my + self.vz * self.mx - self.vx * self.mz - self.mw * self.vy,
             self.vw * self.mz + self.vx * self.my - self.vy * self.mx - self.mw * self.vz,
+            0.0,
         )
     }
     #[inline]
