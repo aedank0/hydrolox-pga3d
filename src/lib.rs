@@ -108,8 +108,10 @@ mod test {
             .combine(Motor::from_rotation_around_axis(0.0, 1.0, 0.0, y));
 
         let point = Point::from_position(2.0, 3.0, 4.0);
-        
-        assert!(motor.transform(point).is_close(separate_rots.transform(point)));
+
+        assert!(motor
+            .transform(point)
+            .is_close(separate_rots.transform(point)));
     }
 
     #[test]
@@ -123,13 +125,15 @@ mod test {
 
         let motor = Motor::from_euler_pos_and_rot(pos_x, pos_y, pos_z, rot_x, rot_y, rot_z);
         let separate_motors = Motor::from_rotation_around_axis(0.0, 0.0, 1.0, rot_z)
-        .combine(Motor::from_rotation_around_axis(1.0, 0.0, 0.0, rot_x))
-        .combine(Motor::from_rotation_around_axis(0.0, 1.0, 0.0, rot_y))
-        .combine(Motor::from_translation(pos_x, pos_y, pos_z));
+            .combine(Motor::from_rotation_around_axis(1.0, 0.0, 0.0, rot_x))
+            .combine(Motor::from_rotation_around_axis(0.0, 1.0, 0.0, rot_y))
+            .combine(Motor::from_translation(pos_x, pos_y, pos_z));
 
         let point = Point::from_position(1.0, 0.5, 2.0);
 
-        assert!(motor.transform(point).is_close(separate_motors.transform(point)));
+        assert!(motor
+            .transform(point)
+            .is_close(separate_motors.transform(point)));
     }
 
     #[test]
@@ -146,7 +150,9 @@ mod test {
 
         let point = Point::from_position(0.5, 0.3, 0.7);
 
-        assert!(motor.transform(point).is_close(rotation.combine(translation).transform(point)));
+        assert!(motor
+            .transform(point)
+            .is_close(rotation.combine(translation).transform(point)));
     }
 
     #[cfg(feature = "serde")]

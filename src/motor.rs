@@ -69,10 +69,26 @@ impl Motor {
         let vz3 = cos_y * vz2 - sin_y * vx2;
         let vw3 = cos_y * vw2 - sin_y * vy2;
 
-        Self { vx: vx3, vy: vy3, vz: vz3, vw: vw3, mx: 0.0, my: 0.0, mz: 0.0, mw: 0.0 }
+        Self {
+            vx: vx3,
+            vy: vy3,
+            vz: vz3,
+            vw: vw3,
+            mx: 0.0,
+            my: 0.0,
+            mz: 0.0,
+            mw: 0.0,
+        }
     }
     #[inline]
-    pub fn from_euler_pos_and_rot(pos_x: Float, pos_y: Float, pos_z: Float, rot_x: Float, rot_y: Float, rot_z: Float) -> Self {
+    pub fn from_euler_pos_and_rot(
+        pos_x: Float,
+        pos_y: Float,
+        pos_z: Float,
+        rot_x: Float,
+        rot_y: Float,
+        rot_z: Float,
+    ) -> Self {
         let rot_z = rot_z * 0.5;
         let sin_z = rot_z.sin();
         let cos_z = rot_z.cos();
@@ -102,15 +118,24 @@ impl Motor {
         let my = pos_y * 0.5;
         let mz = pos_z * 0.5;
 
-        Self { vx: vx3, vy: vy3, vz: vz3, vw: vw3,
+        Self {
+            vx: vx3,
+            vy: vy3,
+            vz: vz3,
+            vw: vw3,
             mx: mx * vw3 - mz * vy3 + my * vz3,
             my: my * vw3 - mx * vz3 + mz * vx3,
             mz: mz * vw3 - my * vx3 + mx * vy3,
-            mw: -(mx * vx3 + my * vy3 + mz * vz3)
+            mw: -(mx * vx3 + my * vy3 + mz * vz3),
         }
     }
     #[inline]
-    pub fn from_rotation_around_axis(axis_x: Float, axis_y: Float, axis_z: Float, angle: Float) -> Self {
+    pub fn from_rotation_around_axis(
+        axis_x: Float,
+        axis_y: Float,
+        axis_z: Float,
+        angle: Float,
+    ) -> Self {
         debug_assert!(
             (axis_x * axis_x + axis_y * axis_y + axis_z * axis_z - 1.0).abs() < 0.01,
             "Axis not normalized"
